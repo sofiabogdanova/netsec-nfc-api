@@ -35,7 +35,7 @@ keyRouter.post('/', async (request, response) => {
     const key = new Key(body)
     await key.save()
 
-    response.status(201).json(card)
+    response.status(201).json(key)
 })
 
 const deleteKeyIfExists = async(app) => {
