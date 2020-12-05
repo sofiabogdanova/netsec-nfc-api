@@ -4,6 +4,8 @@ require('express-async-errors')
 const app = express()
 const cors = require('cors')
 const cardsRouter = require('./controllers/cards')
+const keysRouter = require('./controllers/keys')
+const auditRouter = require('./controllers/keys')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
@@ -29,6 +31,8 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 
 app.use('/api/cards', cardsRouter)
+app.use('/api/keys', keysRouter)
+app.use('/api/audit', auditRouter)
 
 if (process.env.NODE_ENV === 'test') {
 }
