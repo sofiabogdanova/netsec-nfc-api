@@ -23,6 +23,27 @@ const Card = require('../models/card')
 //
 //     response.json(savedUser)
 // })
+cardRouter.post('/blacklist', async (request, response) => {
+    const body = request.body
+
+    const authenticated = await auth(body)
+    if (!authenticated) {
+        response.status(401).json({})
+        return
+    }
+
+    const cards = await Card.find({compromised: true}, function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+    })
+
+    if (cards.length===0) {
+        response.json({})
+    } else {
+        response.json(cards)
+    }
+})
 
 cardRouter.post('/:id', async (request, response) => {
     const cardId = request.params.id

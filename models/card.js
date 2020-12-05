@@ -1,17 +1,14 @@
 const mongoose = require('mongoose')
 
 const cardSchema = new mongoose.Schema({
-    key: {
-        type: String,
-        required: true
-    },
     card: {
         type: String,
         required: true,
         unique : true
     },
     compromised: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 })
 
