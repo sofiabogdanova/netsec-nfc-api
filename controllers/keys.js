@@ -1,8 +1,9 @@
 const bcrypt = require('bcryptjs')
 const keyRouter = require('express').Router()
 const auth = require('../utils/authHelper')
+const Key = require('../models/key')
 
-cardRouter.post('/:app', async (request, response) => {
+keyRouter.post('/:app', async (request, response) => {
     const body = request.body
     const app = request.params.app
 
@@ -12,32 +13,40 @@ cardRouter.post('/:app', async (request, response) => {
         return
     }
 
-    await deleteCardIfExists(body.card)
+    const keys = await Key.find({app: app})
+    if (keys.length===0) {
+        return
+    }
 
-    const card = new Card(body)
-    await card.save()
+    const masterKey = keys[0]
+    response.status(201).json(masterKey)
+})
+
+keyRouter.post('/', async (request, response) => {
+    const body = request.body
+
+    const authenticated = await auth(body)
+    if (!authenticated) {
+        response.status(401).json({})
+        return
+    }
+
+    await deleteKeyIfExists(body.app)
+
+    const key = new Key(body)
+    await key.save()
 
     response.status(201).json(card)
 })
 
-const auth = async(body) => {
-    const username = body.username;
-    const pswd = body.password;
-
-    //const user = await User.findOne({ username: username });
-    const users = await User.find({ username: username })
-    if (users.length===0) {
-        return false
+const deleteKeyIfExists = async(app) => {
+    const keys = await Key.find({app: app})
+    if (keys.length===0) {
+        return
     }
-
-    const user = users[0]
-    const passwordCorrect = user === null
-        ? false
-        : await bcrypt.compare(pswd, user.passwordHash)
-
-    if (!(user && passwordCorrect)) {
-        return false
-    }
-    return true
+    const id = keys[0].id
+    await Key.findByIdAndRemove(id)
 }
+
+module.exports = keyRouter
 
