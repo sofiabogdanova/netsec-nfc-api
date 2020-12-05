@@ -4,13 +4,6 @@ const Audit = require('../models/audit')
 
 auditRouter.get('/:id', async (request, response) => {
     const cardId = request.params.id
-    const body = request.body
-
-    const authenticated = await auth(body)
-    if (!authenticated) {
-        response.status(401).json({})
-        return
-    }
 
     const audits = await Audit.find({card: cardId}, function (err, result) {
         if (err) {

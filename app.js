@@ -6,7 +6,9 @@ const cors = require('cors')
 const cardsRouter = require('./controllers/cards')
 const keysRouter = require('./controllers/keys')
 const auditRouter = require('./controllers/audit')
+const loginRouter = require('./controllers/login')
 const middleware = require('./utils/middleware')
+const tokenExtractor = require('./utils/tokenExtractor')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 
@@ -29,10 +31,12 @@ app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 app.use(middleware.requestLogger)
+app.use(tokenExtractor)
 
 app.use('/api/cards', cardsRouter)
 app.use('/api/keys', keysRouter)
 app.use('/api/audit', auditRouter)
+app.use('/api/login', loginRouter)
 
 if (process.env.NODE_ENV === 'test') {
 }

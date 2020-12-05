@@ -1,25 +1,14 @@
-const bcrypt = require('bcryptjs')
-const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 const auth = async(body) => {
-    const username = body.username;
-    const pswd = body.password;
-
-    //const user = await User.findOne({ username: username });
-    const users = await User.find({ username: username })
-    if (users.length===0) {
-        return false
-    }
-
-    const user = users[0]
-    const passwordCorrect = user === null
-        ? false
-        : await bcrypt.compare(pswd, user.passwordHash)
-
-    if (!(user && passwordCorrect)) {
+    const token = body.token
+    const decodedToken = decodeToken(token, process.env.SECRET)
+    if (!decodedToken || !decodedToken.id) {
         return false
     }
     return true
 }
+
+const decodeToken = (token, secret) =>  jwt.verify(token, secret)
 
 module.exports = auth
