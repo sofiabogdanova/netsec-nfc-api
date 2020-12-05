@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs')
 const keyRouter = require('express').Router()
 const auth = require('../utils/authHelper')
 const Key = require('../models/key')

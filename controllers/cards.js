@@ -1,7 +1,6 @@
-const bcrypt = require('bcryptjs')
 const cardRouter = require('express').Router()
+const auth = require('../utils/authHelper')
 const Card = require('../models/card')
-const User = require('../models/user')
 
 // cardRouter.post('/register', async (request, response) => {
 //     const body = request.body

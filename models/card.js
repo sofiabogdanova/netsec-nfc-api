@@ -9,6 +9,9 @@ const cardSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique : true
+    },
+    compromised: {
+        type: Boolean
     }
 })
 
