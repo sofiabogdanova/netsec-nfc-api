@@ -38,10 +38,15 @@ cardRouter.post('/blacklist', async (request, response) => {
         }
     })
 
+     const result = {
+        cards: []
+     }
+
     if (cards.length===0) {
-        response.json({})
+        response.json(result)
     } else {
-        response.json(cards)
+        result.cards = cards
+        response.json(result)
     }
 })
 
