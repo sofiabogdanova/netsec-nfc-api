@@ -11,7 +11,8 @@ readerRouter.post('/compromise', async (request, response) => {
         return
     }
 
-    user.compromised = true
+    const compromised = body.compromised
+    user.compromised = compromised
     const savedUser = await user.save()
 
     response.json(savedUser)
