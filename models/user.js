@@ -6,6 +6,10 @@ const userSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
+    compromised: {
+        type: Boolean,
+        default: false
+    },
     passwordHash: String
 })
 

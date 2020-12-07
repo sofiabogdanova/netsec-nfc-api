@@ -29,4 +29,27 @@ loginRouter.post('/', async (request, response) => {
         .send({ token, username: user.username })
 })
 
+loginRouter.post('/register', async (request, response) => {
+    const body = request.body
+    const password = body.password
+    if (!password) {
+        return response.status(400).json({
+            error: 'password is required'
+        })
+    }
+
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash(password, saltRounds)
+
+    const user = new User({
+        username: body.username,
+        passwordHash,
+    })
+
+    const savedUser = await user.save()
+
+    response.json(savedUser)
+})
+
+
 module.exports = loginRouter

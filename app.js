@@ -7,6 +7,7 @@ const cardsRouter = require('./controllers/cards')
 const keysRouter = require('./controllers/keys')
 const auditRouter = require('./controllers/audit')
 const loginRouter = require('./controllers/login')
+const readerRouter = require('./controllers/readers')
 const middleware = require('./utils/middleware')
 const tokenExtractor = require('./utils/tokenExtractor')
 const logger = require('./utils/logger')
@@ -37,6 +38,7 @@ app.use('/api/cards', cardsRouter)
 app.use('/api/keys', keysRouter)
 app.use('/api/audit', auditRouter)
 app.use('/api/login', loginRouter)
+app.use('/api/readers', readerRouter)
 
 if (process.env.NODE_ENV === 'test') {
 }

@@ -1,5 +1,5 @@
 const auditRouter = require('express').Router()
-const auth = require('../utils/authHelper')
+const authHelper = require('../utils/authHelper')
 const Audit = require('../models/audit')
 
 auditRouter.get('/:id', async (request, response) => {
@@ -21,7 +21,7 @@ auditRouter.get('/:id', async (request, response) => {
 auditRouter.post('/', async (request, response) => {
     const body = request.body
 
-    const authenticated = await auth(body)
+    const authenticated = await authHelper.auth(body)
     if (!authenticated) {
         response.status(401).json({})
         return
